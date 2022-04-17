@@ -47,10 +47,18 @@ export const updateComment = async (req, res) => {
 
 export const deleteComment = async (req, res) => {
   try {
-    const { comment_id } = req.params;
+    const { comment_id, blog_id } = req.params;
     const deleted = await Comment.findByIdAndDelete(comment_id);
 
     if (deleted) {
+      const blog = await Blog.findById(blog_id);
+
+      blog.comments = blog.comments.filter((comment) => {
+        return comment._id !== comment_id;
+      });
+
+      blog.save();
+
       return res.status(200).send("Comment deleted!");
     }
 

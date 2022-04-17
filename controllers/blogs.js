@@ -1,4 +1,5 @@
 import Blog from "../models/blog.js";
+import Comment from "../models/comment.js";
 
 export const getBlogs = async (req, res) => {
   try {
@@ -54,6 +55,7 @@ export const deleteBlog = async (req, res) => {
     const deleted = await Blog.findByIdAndDelete(blog_id);
 
     if (deleted) {
+      await Comment.deleteMany({ blogId: blog_id });
       return res.status(200).send("Blog deleted!");
     }
 

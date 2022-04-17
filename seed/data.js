@@ -93,8 +93,11 @@ const insertData = async () => {
   await Comment.insertMany(commentsThree);
 
   blog1.comments = await Comment.find({ blogId: blog1 });
+  await blog1.save();
   blog2.comments = await Comment.find({ blogId: blog2 });
+  await blog2.save();
   blog3.comments = await Comment.find({ blogId: blog3 });
+  await blog3.save();
 
   db.close();
 };
