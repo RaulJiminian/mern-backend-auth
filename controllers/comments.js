@@ -5,7 +5,12 @@ export const getComment = async (req, res) => {
   try {
     const { comment_id } = req.params;
     const comment = await Comment.findById(comment_id);
-    res.json(comment);
+
+    if (comment) {
+      return res.json(comment);
+    }
+
+    res.status(404).send("Comment not found!");
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error.message });
