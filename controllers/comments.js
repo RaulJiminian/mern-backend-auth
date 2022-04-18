@@ -37,7 +37,7 @@ export const createComment = async (req, res) => {
 export const updateComment = async (req, res) => {
   try {
     const { comment_id } = req.params;
-    const comment = await Comment.findByIdAndUpdate(comment_id);
+    const comment = await Comment.findByIdAndUpdate(comment_id, req.body);
     res.status(201).json(comment);
   } catch (error) {
     console.log(error);
@@ -54,7 +54,7 @@ export const deleteComment = async (req, res) => {
       const blog = await Blog.findById(blog_id);
 
       blog.comments = blog.comments.filter((comment) => {
-        return comment._id !== comment_id;
+        return comment._id != comment_id;
       });
 
       blog.save();
